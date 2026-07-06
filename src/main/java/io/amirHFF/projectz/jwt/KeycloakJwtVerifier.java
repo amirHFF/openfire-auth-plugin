@@ -9,8 +9,11 @@ import com.auth0.jwk.*;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import io.amirHFF.projectz.config.Config;
 import org.jivesoftware.util.JiveGlobals;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.interfaces.RSAPublicKey;
 
 public class KeycloakJwtVerifier implements JwtVerifier{
@@ -18,14 +21,16 @@ public class KeycloakJwtVerifier implements JwtVerifier{
     private final String issuer;
 
     public KeycloakJwtVerifier() {
-        String jwksUrl = JiveGlobals.getProperty("jwt.auth.jwks.url",
-                "https:///realms/myrealm/protocol/openid-connect/certs");
-
-        this.issuer = JiveGlobals.getProperty("jwt.auth.issuer",
-                "https://keycloak.example.com/realms/myrealm");
-
+        Config config = new Config();
+        URL jwksUrl = null;
+        try {
+            jwksUrl = new URL(config.props.getProperty(Config.JWK_URL_STRING ));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        this.issuer = config.props.getProperty(Config.JWT_ISSUER_STRING);
         this.jwkProvider = new JwkProviderBuilder(jwksUrl)
-                .cached(true)           // caching خودکار
+                .cached(true)
                 .build();
     }
 
