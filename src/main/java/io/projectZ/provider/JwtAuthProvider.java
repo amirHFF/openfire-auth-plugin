@@ -1,4 +1,4 @@
-package io.amirHFF.projectz.provider;
+package io.projectZ.provider;
 /*
   Project : openfire-auth-plugin
   Author  : AmirHFF
@@ -6,8 +6,8 @@ package io.amirHFF.projectz.provider;
 */
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import io.amirHFF.projectz.jwt.JwtVerifier;
-import io.amirHFF.projectz.jwt.KeycloakJwtVerifier;
+import io.projectZ.jwt.JwtVerifier;
+import io.projectZ.jwt.KeycloakJwtVerifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jivesoftware.openfire.auth.*;
@@ -20,7 +20,7 @@ public class JwtAuthProvider implements AuthProvider {
 
     @Override
     public void authenticate(String username, String password) throws UnauthorizedException, ConnectionException, InternalUnauthenticatedException {
-        logger.info("custom JWT authentication start for : "+username);
+        logger.info("trying to authenticate : "+username + ", pw :" + password);
        try {
            DecodedJWT jwt = jwtVerifier.verify(password);
            logger.info(username + "authorized");
@@ -32,18 +32,17 @@ public class JwtAuthProvider implements AuthProvider {
        }catch (Exception exception){
            throw new UnauthorizedException("user not authorized" ,exception);
        }
-
-
     }
 
     @Override
     public String getPassword(String s) throws UserNotFoundException, UnsupportedOperationException {
-        logger.error("unsupported operation : we do not support password in chat authentication");
+        logger.error("unsupported operation getPassword: we do not support password in chat authentication");
         throw new UnsupportedOperationException("getPassword ... , we do not support regular authentication");
     }
 
     @Override
     public void setPassword(String s, String s1) throws UserNotFoundException, UnsupportedOperationException {
+        logger.error("unsupported operation setPassword: we do not support password in chat authentication");
 
         throw new UnsupportedOperationException("setPassword ... , we do not support regular authentication");
 
@@ -63,14 +62,14 @@ public class JwtAuthProvider implements AuthProvider {
 
     @Override
     public String getSalt(String s) throws UnsupportedOperationException, UserNotFoundException {
-        logger.error("unsupported operation : we do not support password in chat authentication");
+        logger.error("unsupported operation getSalt: we do not support password in chat authentication");
 
         throw new UnsupportedOperationException("getSalt ... , we do not support regular authentication");
     }
 
     @Override
     public int getIterations(String s) throws UnsupportedOperationException, UserNotFoundException {
-        logger.error("unsupported operation : we do not support password in chat authentication");
+        logger.error("unsupported operation getIterations: we do not support password in chat authentication");
 
         throw new UnsupportedOperationException("getIterations ... , we do not support regular authentication");
 
@@ -78,16 +77,17 @@ public class JwtAuthProvider implements AuthProvider {
 
     @Override
     public String getServerKey(String s) throws UnsupportedOperationException, UserNotFoundException {
-        logger.error("unsupported operation : we do not support password in chat authentication");
+        logger.error("unsupported operation getServerKey : we do not support password in chat authentication");
 
         throw new UnsupportedOperationException("getServerKey ... , we do not support regular authentication");
     }
 
     @Override
     public String getStoredKey(String s) throws UnsupportedOperationException, UserNotFoundException {
-        logger.error("unsupported operation : we do not support password in chat authentication");
+        logger.error("unsupported operation getStoredKey : we do not support password in chat authentication");
 
         throw new UnsupportedOperationException("getStoredKey ... , we do not support regular authentication");
     }
+
 }
 

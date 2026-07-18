@@ -1,6 +1,6 @@
-package io.amirHFF.projectz;
+package io.projectZ;
 
-import io.amirHFF.projectz.provider.JwtAuthProvider;
+import io.projectZ.provider.JwtAuthProvider;
 import org.jivesoftware.openfire.auth.ConnectionException;
 import org.jivesoftware.openfire.auth.InternalUnauthenticatedException;
 import org.jivesoftware.openfire.auth.UnauthorizedException;

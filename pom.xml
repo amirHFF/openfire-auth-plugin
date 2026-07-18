@@ -4,14 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.amirHFF.project-z</groupId>
-    <artifactId>openfire-auth-plugin</artifactId>
+    <groupId>io.project-z</groupId>
+    <artifactId>openfire-auth-provider</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <parent>
-        <groupId>org.igniterealtime.openfire</groupId>
-        <artifactId>plugins</artifactId>
-        <version>5.0.5</version>
-    </parent>
+
     <repositories>
         <!-- Where dependencies are obtained (such as the parent project). -->
         <repository>
@@ -22,8 +18,8 @@
     </repositories>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <openfire.version>5.0.5</openfire.version>
         <java-jwt.version>4.5.0</java-jwt.version>
 
@@ -31,11 +27,12 @@
     </properties>
 
     <dependencies>
-            <dependency>
-                <groupId>org.igniterealtime.openfire</groupId>
-                <artifactId>xmppserver</artifactId>
-                <version>${openfire.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>org.igniterealtime.openfire</groupId>
+            <artifactId>xmppserver</artifactId>
+            <version>${openfire.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- JWT Validation -->
         <dependency>
@@ -49,17 +46,37 @@
             <version>0.22.1</version>   <!-- یا جدیدترین -->
         </dependency>
 
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.17</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version>
-        </dependency>
     </dependencies>
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+
+                        <configuration>
+
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+
+                        </configuration>
+
+                    </execution>
+                </executions>
+
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>

@@ -1,4 +1,4 @@
-package io.amirHFF.projectz.jwt;
+package io.projectZ.jwt;
 /*
   Project : openfire-auth-plugin
   Author  : AmirHFF
@@ -9,8 +9,9 @@ import com.auth0.jwk.*;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import io.amirHFF.projectz.config.Config;
-import org.jivesoftware.util.JiveGlobals;
+import io.projectZ.config.Config;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,6 +20,7 @@ import java.security.interfaces.RSAPublicKey;
 public class KeycloakJwtVerifier implements JwtVerifier{
     private final JwkProvider jwkProvider;
     private final String issuer;
+    private final Logger logger = LogManager.getLogger(KeycloakJwtVerifier.class);
 
     public KeycloakJwtVerifier() {
         Config config = new Config();
@@ -32,6 +34,7 @@ public class KeycloakJwtVerifier implements JwtVerifier{
         this.jwkProvider = new JwkProviderBuilder(jwksUrl)
                 .cached(true)
                 .build();
+        logger.info("jwkProvider created");
     }
 
     @Override
@@ -39,7 +42,7 @@ public class KeycloakJwtVerifier implements JwtVerifier{
         DecodedJWT jwt = JWT.decode(token);
         Jwk jwk = jwkProvider.get(jwt.getKeyId());
         Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(), null);
-
+        logger.info("verifying for token {} ",token);
         return JWT.require(algorithm).withIssuer(issuer).build().verify(token);
     }
 }

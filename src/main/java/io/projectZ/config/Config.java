@@ -1,4 +1,4 @@
-package io.amirHFF.projectz.config;
+package io.projectZ.config;
 /*
   Project : openfire-auth-plugin
   Author  : AmirHFF

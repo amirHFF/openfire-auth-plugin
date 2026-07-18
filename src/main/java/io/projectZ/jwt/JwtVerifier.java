@@ -1,4 +1,4 @@
-package io.amirHFF.projectz.jwt;
+package io.projectZ.jwt;
 /*
   Project : openfire-auth-plugin
   Author  : AmirHFF
